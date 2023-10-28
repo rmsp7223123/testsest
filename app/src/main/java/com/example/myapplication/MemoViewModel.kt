@@ -9,7 +9,7 @@ import kotlinx.coroutines.launch
 
 class MemoViewModel(application: Application) : AndroidViewModel(application) {
     private val memoDao: MemoDao;
-    private val allMemos: LiveData<List<Memo>>;
+    val allMemos: LiveData<List<Memo>>;
 
     init {
         val database = MemoDatabase.getDatabase(application);
@@ -17,9 +17,9 @@ class MemoViewModel(application: Application) : AndroidViewModel(application) {
         allMemos = memoDao.getAllMemos();
     };
 
-    fun getAllMemos(): LiveData<List<Memo>> {
-        return allMemos;
-    };
+//    fun getAllMemos(): LiveData<List<Memo>> {
+//        return allMemos;
+//    };
 
     fun searchMemos(query: String): LiveData<List<Memo>> {
         return memoDao.searchMemos("%$query%");
