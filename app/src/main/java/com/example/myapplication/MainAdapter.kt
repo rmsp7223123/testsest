@@ -9,12 +9,19 @@ import android.widget.EditText
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.databinding.ItemRecvBinding
 
-class MainAdapter(private var list : List<Memo>, private val viewModel: MemoViewModel) : RecyclerView.Adapter<MainAdapter.ViewHolder>() {
+class MainAdapter(private var list: List<Memo>, private val viewModel: MemoViewModel) :
+    RecyclerView.Adapter<MainAdapter.ViewHolder>() {
 
-    inner class ViewHolder(var binding : ItemRecvBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class ViewHolder(var binding: ItemRecvBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(ItemRecvBinding.inflate(LayoutInflater.from(parent.context),parent,false));
+        return ViewHolder(
+            ItemRecvBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        );
     };
 
     override fun getItemCount(): Int {
@@ -36,25 +43,25 @@ class MainAdapter(private var list : List<Memo>, private val viewModel: MemoView
     private fun showOptionsDialog(context: Context, position: Int) {
         val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_edit, null);
         val editTextEditContent = dialogView.findViewById<EditText>(R.id.editTextEditContent);
-        val options = arrayOf("수정", "삭제");
         val memoToEditOrDelete = list[position];
         editTextEditContent.setText(memoToEditOrDelete.content);
+        val parentView = editTextEditContent.parent as? ViewGroup;
+        parentView?.removeView(editTextEditContent);
 
         AlertDialog.Builder(context)
+            .setView(editTextEditContent)
             .setTitle("옵션 선택")
-            .setItems(options) { _, which ->
-                when (which) {
-                    0 -> {
-                        val editedContent = editTextEditContent.text.toString();
-                        memoToEditOrDelete.content = editedContent;
-                        viewModel.updateMemo(memoToEditOrDelete);
-                    }
-                    1 -> {
-                        viewModel.deleteMemo(memoToEditOrDelete);
-                    }
-                }
+            .setNegativeButton("수정") { dialog, _ ->
+                val editedContent = editTextEditContent.text.toString();
+                memoToEditOrDelete.content = editedContent;
+                viewModel.updateMemo(memoToEditOrDelete);
+                dialog.dismiss();
             }
-            .setNegativeButton("취소") { dialog, _ ->
+            .setPositiveButton("취소") { dialog, _ ->
+                dialog.dismiss();
+            }
+            .setNeutralButton("삭제") { dialog, _ ->
+                viewModel.deleteMemo(memoToEditOrDelete);
                 dialog.dismiss();
             }
             .show();
