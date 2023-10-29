@@ -16,14 +16,14 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater);
         setContentView(binding.root);
 
-        adapter = MainAdapter(emptyList());
-        binding.recyclerViewMemos.adapter = adapter;
-        binding.recyclerViewMemos.layoutManager = LinearLayoutManager(this);
-
         viewModel = ViewModelProvider(this)[MemoViewModel::class.java];
         viewModel.allMemos.observe(this) {list ->
             adapter.updateData(list);
         };
+
+        adapter = MainAdapter(emptyList(), viewModel);
+        binding.recyclerViewMemos.adapter = adapter;
+        binding.recyclerViewMemos.layoutManager = LinearLayoutManager(this);
 
         binding.buttonAddMemo.setOnClickListener {
             val title = binding.editTextSearch.text.toString();
