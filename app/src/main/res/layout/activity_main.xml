@@ -7,6 +7,15 @@
     tools:context=".MainActivity"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
     <EditText
         android:id="@+id/editTextSearch"
         android:layout_width="wrap_content"
@@ -19,6 +28,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Add Memo" />
+
+    </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/EditTextSort"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="editTextSort"
+                android:inputType="text" />
+
+            <Button
+                android:id="@+id/buttonSortMemo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sort Memo" />
+
+        </LinearLayout>
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_margin="10dp"

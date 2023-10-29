@@ -35,5 +35,18 @@ class MainActivity : AppCompatActivity() {
 
             };
         };
+
+        binding.buttonSortMemo.setOnClickListener {
+            val searchQuery = binding.EditTextSort.text.toString().trim();
+            if (searchQuery.isNotEmpty()) {
+                viewModel.searchMemos(searchQuery).observe(this) { memos ->
+                    adapter.updateData(memos);
+                };
+            } else {
+                viewModel.allMemos.observe(this) { memos ->
+                    adapter.updateData(memos);
+                };
+            };
+        };
     };
 };
